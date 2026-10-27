@@ -1,26 +1,28 @@
-# 课栈 · 精选课程目录
+# 课栈 · 精选课程
 
-一页式课程展示网站。每张卡片附课程封面、讲师、重点和官方课程页面链接。
+两页的静态网站：
+
+- `index.html` 首页：3D 课程转盘、自动轮播的推荐卡、统计数字、进入课程目录的入口
+- `courses.html` 课程目录：分类、平台、讲师筛选，搜索，收藏
 
 ## 新增或修改课程
 
-打开 `index.html`，找到 `const COURSES=[`，照现有格式加一行：
+只要改 `data.js`，两页会一起更新。照现有格式加一行：
 
 ```
 ["编号","课程名","讲师","分类","形式","学什么",课程页面,"封面","备用封面","平台"]
 ```
 
 - 大人学的课：课程页面填数字 id，封面填档名，平台可以不填。
-- 其他平台的课：课程页面和封面都填完整网址，最后一栏写平台名称。网站会自动出现「平台」筛选。
+- 其他平台的课：课程页面和封面都填完整网址，最后一栏写平台名称。课程目录会自动出现「平台」筛选。
 
 分类目前有：人生策略、沟通表达、职场能力、商业销售。
 
-## 动效用到的开源库（放在 `vendor/`）
+## 档案
 
-- [GSAP](https://gsap.com)（含 ScrollTrigger、SplitText、Flip）：开场拆字动画、滚动出场、筛选时卡片重排
-- [Lenis](https://github.com/darkroomengineering/lenis)：平滑滚动
-- 背景光影是自写的 WebGL shader，没有用额外的库
+- `site.css` / `site.js`：两页共用的样式、背景极光（WebGL）、平滑滚动、跟随游标
+- `vendor/`：开源动画库 [GSAP](https://gsap.com)（ScrollTrigger、SplitText、Flip）和 [Lenis](https://github.com/darkroomengineering/lenis)
 
 ## 部署
 
-这个 repo 连接 Vercel，每次推送到 `main` 都会自动更新网站。纯静态 HTML，不需要建置指令。
+这个 repo 连接 Vercel，每次推送到 `main` 都会自动更新网站。纯静态，不需要建置指令。
