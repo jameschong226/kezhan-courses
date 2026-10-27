@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>课栈｜我上过的课</title>
+<meta name="description" content="我在大人学上过的课，附课程封面、讲师和官方页面链接。">
+<meta property="og:title" content="课栈｜我上过的课">
+<meta property="og:description" content="我在大人学上过的课，附课程封面、讲师和官方页面链接。">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@700;900&display=swap">
+<style>
+/* Layout: a library card catalog — courses filed as ruled index cards, filters as a catalog drawer label above them */
+:root{
+  --bg:#EDF0EB; --surface:#FBFCF9; --ink:#17221E; --muted:#596660; --line:#D3DAD2;
+  --ruled:#E3E8E1; --rule:#B9483A; --accent:#2D6650; --mark:#D99A2B;
+  --cat-0:#2D6650; --cat-1:#35559E; --cat-2:#9B5128; --cat-3:#874079;
+  --glow:rgba(45,102,80,.13); --shadow:rgba(23,34,30,.45);
+  --aura-1:#BFDCC9; --aura-2:#F0D3A6; --aura-3:#CCD6F2; --aura-op:.6;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  --f-display:"Noto Serif SC","Songti SC","STSong",serif;
+  --f-body:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#111916; --surface:#19231F; --ink:#E5ECE7; --muted:#9AA9A2; --line:#2B3A33;
+  --ruled:#22302A; --rule:#D9705F; --accent:#74C29B; --mark:#EFBE5C;
+  --cat-0:#74C29B; --cat-1:#8FA9EC; --cat-2:#E0956A; --cat-3:#D78CC6;
+  --glow:rgba(116,194,155,.16); --shadow:rgba(0,0,0,.7);
+  --aura-1:#1F4636; --aura-2:#4A3417; --aura-3:#1F2A4D; --aura-op:.55;
+  color-scheme:dark}}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+img{max-width:100%}
+[hidden]{display:none!important}
+.wrap{max-width:1160px;margin:0 auto}
+a{color:inherit}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:10px;text-decoration:none}
+.brand b{font-family:var(--f-display);font-weight:900;font-size:26px;letter-spacing:.04em}
+.brand span{font-size:13px;color:var(--muted)}
+.nav{display:flex;gap:4px}
+.nav a{text-decoration:none;padding:6px 12px;border-radius:4px;font-size:14px;color:var(--muted)}
+.nav a[aria-current="page"]{color:var(--ink);background:var(--surface);box-shadow:inset 0 0 0 1px var(--line)}
+.nav .n{font-family:var(--f-mono);font-size:12px;margin-left:4px;color:var(--mark)}
+
+.intro{padding-block:40px 24px;display:grid;gap:10px;max-width:42em}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--rule)}
+h1{font-family:var(--f-display);font-weight:900;font-size:clamp(28px,5vw,42px);line-height:1.25;margin:0;text-wrap:balance}
+.intro p{margin:0;color:var(--muted);max-width:34em}
+.stats{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:4px}
+.stats b{font-family:var(--f-mono);font-weight:500;color:var(--ink);margin-right:4px}
+
+.drawer{background:color-mix(in srgb,var(--surface) 78%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:3px;padding:16px;display:grid;gap:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.search{flex:1 1 260px;min-width:0;display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:3px;padding:0 12px;background:var(--bg)}
+.search input{border:0;background:transparent;padding:10px 0;width:100%;min-width:0;outline:none}
+.search svg{flex:none;color:var(--muted)}
+select{border:1px solid var(--line);border-radius:3px;background:var(--bg);padding:9px 10px;min-width:0}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}
+.chip{flex:none;border:1px solid var(--line);background:transparent;border-radius:999px;padding:5px 12px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.chip i{width:8px;height:8px;border-radius:2px;background:var(--c,var(--muted))}
+.chip em{font-style:normal;font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip[aria-pressed="true"] em{color:inherit;opacity:.7}
+.count{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.count b{color:var(--ink);font-family:var(--f-mono)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px;padding-block:22px}
+.card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:2px;display:flex;flex-direction:column;min-width:0;
+  transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--lift,0px));
+  transition:transform .45s var(--ease),box-shadow .45s ease;
+  animation:rise .8s var(--ease) backwards;animation-delay:calc(var(--i,0) * 70ms + 380ms)}
+.card:hover{--lift:-6px;box-shadow:0 26px 44px -28px var(--shadow)}
+.card.tilting{transition:transform .1s linear,box-shadow .45s ease}
+.card::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(280px circle at var(--mx,50%) var(--my,0%),var(--glow),transparent 62%);opacity:0;transition:opacity .35s ease}
+.card:hover::after{opacity:1}
+.grid.settled .card{animation:none}
+.cover{position:relative;display:block;aspect-ratio:16/9;max-width:100%;overflow:hidden;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--c) 16%,var(--surface))}
+.cover img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s var(--ease)}
+.card:hover .cover img{transform:scale(1.07)}
+
+/* ambient light behind the catalogue */
+.aura{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.aura i{position:absolute;width:56vmax;height:56vmax;border-radius:50%;filter:blur(90px);opacity:var(--aura-op);animation:drift 28s ease-in-out infinite alternate}
+.aura i:nth-child(1){background:var(--aura-1);top:-22vmax;left:-16vmax}
+.aura i:nth-child(2){background:var(--aura-2);bottom:-26vmax;right:-20vmax;animation-duration:34s;animation-delay:-9s}
+.aura i:nth-child(3){background:var(--aura-3);top:32%;left:38%;width:36vmax;height:36vmax;animation-duration:40s;animation-delay:-17s}
+@keyframes drift{to{transform:translate(9vmax,7vmax) scale(1.18)}}
+@keyframes rise{from{opacity:0;transform:translateY(30px)}}
+.top,.intro>*,.drawer{animation:rise .8s var(--ease) backwards}
+.intro>*:nth-child(1){animation-delay:.08s}.intro>*:nth-child(2){animation-delay:.16s}
+.intro>*:nth-child(3){animation-delay:.24s}.intro>*:nth-child(4){animation-delay:.32s}
+.drawer{animation-delay:.36s}
+::view-transition-group(*){animation-duration:.5s;animation-timing-function:cubic-bezier(.2,.7,.2,1)}
+.cover .ph{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:space-between;padding:12px 16px;
+  background-image:repeating-linear-gradient(135deg,transparent 0 14px,color-mix(in srgb,var(--c) 10%,transparent) 14px 15px)}
+.cover .ph b{font-family:var(--f-display);font-weight:900;font-size:56px;line-height:1;color:var(--c);opacity:.85}
+.cover .ph span{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;color:var(--muted)}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 16px 8px;border-bottom:2px solid var(--rule)}
+.cat{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--c)}
+.cat i{width:9px;height:9px;border-radius:2px;background:var(--c)}
+.no{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.card-body{flex:1;padding:4px 16px 0;line-height:28px;
+  background-image:repeating-linear-gradient(to bottom,transparent 0 27px,var(--ruled) 27px 28px)}
+.card h3{font-family:var(--f-display);font-weight:700;font-size:17px;line-height:28px;margin:0;text-wrap:balance}
+.card h3 a{text-decoration:none}
+.card h3 a:hover{text-decoration:underline}
+.who{font-size:14px;color:var(--muted)}
+.learn{font-size:14px}
+.learn span{color:var(--muted)}
+.meta{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.meta b{font-family:var(--f-mono);font-weight:500;color:var(--ink)}
+.card-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 16px 14px;margin-top:8px}
+.save{border:1px solid var(--line);background:transparent;border-radius:3px;padding:5px 10px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.save svg{width:14px;height:14px}
+.save[aria-pressed="true"]{border-color:var(--mark);color:var(--mark)}
+.save[aria-pressed="true"] path{fill:var(--mark)}
+.go{font-size:13px;font-weight:500;text-decoration:none;color:var(--accent)}
+.go:hover{text-decoration:underline}
+
+.empty{grid-column:1/-1;text-align:center;padding:48px 16px;color:var(--muted);border:1px dashed var(--line);border-radius:3px}
+.empty strong{display:block;font-family:var(--f-display);font-size:20px;color:var(--ink);margin-bottom:6px}
+
+.pager{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-block:8px 40px}
+.pages{display:flex;gap:4px;flex-wrap:wrap}
+.pages button{min-width:36px;height:36px;border:1px solid var(--line);background:var(--surface);border-radius:3px;cursor:pointer;font-family:var(--f-mono);font-size:13px}
+.pages button[aria-current="page"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.pages button:disabled{opacity:.4;cursor:default}
+.range{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+footer{border-top:1px solid var(--line);padding-block:20px 32px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+
+@media (max-width:480px){.row select{flex:1 1 40%}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .card,.card:hover,.card:hover .cover img{transform:none}
+}
+</style>
+</head>
+<body>
+<div class="aura" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#"><b>课栈</b><span>我上过的课</span></a>
+    <nav class="nav" aria-label="主导航">
+      <a href="#" id="nav-all">全部课程</a>
+      <a href="#saved" id="nav-saved">我的收藏<span class="n" id="saved-n">0</span></a>
+    </nav>
+  </header>
+
+  <section class="intro">
+    <div class="eyebrow" id="eyebrow">Catalogue · 课程目录</div>
+    <h1 id="headline">我上过、也推荐的课</h1>
+    <p id="lede">这些是我在大人学上过的课。点封面或「去官方页面」，可以看课程介绍和报名方式。</p>
+    <div class="stats" id="stats"></div>
+  </section>
+
+  <section class="drawer" aria-label="筛选课程">
+    <div class="row">
+      <label class="search" for="q">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="搜课程名、讲师，或你想学的东西" autocomplete="off">
+      </label>
+      <select id="platform" aria-label="平台"></select>
+      <select id="sort" aria-label="排序">
+        <option value="default">最新课程</option>
+        <option value="code">课程编号</option>
+        <option value="teacher">按讲师</option>
+      </select>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="分类"></div>
+    <div class="count" id="count"></div>
+  </section>
+
+  <main class="grid" id="grid" aria-live="polite"></main>
+
+  <nav class="pager" aria-label="分页">
+    <div class="range" id="range"></div>
+    <div class="pages" id="pages"></div>
+  </nav>
+
+  <footer>
+    <span>© 2026 课栈</span>
+    <span>课程封面与介绍版权归大人学及各讲师所有，本站只做个人学习记录与导览。</span>
+  </footer>
+</div>
+
+<script>
+const CATS=["人生策略","沟通表达","职场能力","商业销售"];
+const IMG="https://shop.darencademy.com/images/backend/products/";
+const PAGE="https://shop.darencademy.com/product/view/id/";
+// 新增课程：照格式加一行。
+// [编号, 课程名, 讲师, 分类, 形式, 学什么, 大人学页面 id, 封面档名, 备用封面档名, 平台]
+const COURSES=[
+ ["V040","少年大人學：用遊戲思維建構人生策略","張國洋","人生策略","线上语音","用玩游戏的眼光看人生，学会给自己定策略",154,"729d597b4f48b37418a7337faec711f0.jpg","4e5863c314d56179775da86dfb63138f.jpg"],
+ ["V036","LinkedIn經營全攻略：建立個人品牌，拓展國際人脈，讓外商工作找到你","陳湘陽 Sonny","职场能力","线上语音","经营 LinkedIn 个人品牌，让外商机会找上门",135,"208bdd4ec3972869aceff70f08de2c5f.jpg","dc1dfe80b055b2b68fc84d0fb926e630.jpg"],
+ ["V035","邏輯思考情商課","姚詩豪","沟通表达","线上语音","用理性对话处理负面情绪，提升情商",133,"64811bf156760cfbf3907d10bacdb922.jpg","9884603e90fcad102072bfb3d7b4f6f2.jpg"],
+ ["V034","年輕上班族必備的問題分析與解決課","彭建文","职场能力","线上语音","拆解陌生问题、找到根源、推出对策",132,"80059e26920459de3440adaf78a307d7.jpg","e7ad4c00a264f05230ec96af4f46907d.jpg"],
+ ["V031","大人的說話課：條理清晰地說出觀點、發揮影響力","姚詩豪","沟通表达","线上语音","用结构和叙事，把观点说清楚、说服人",127,"e84dc044461b0a108326dc8fa1d76d39.jpg","276ebead2c3a29cc9180fd7b95dc5620.jpg"],
+ ["V026","從商業設計故事學「突破框架思考力」","姚詩傑","商业销售","线上语音","从商业设计案例学跳出框架的思考",121,"89b8118af36d4dd1ec7d2577bf0d2b0d.jpg","08c902e09155f0de028c0ed9b02e1f1c.jpg"],
+ ["V018","用經營公司的思維經營你的人生","張國洋","人生策略","线上语音","用经营公司的思维规划自己的人生",116,"a15668c8a49aba772132ac0d53a50841.jpg","46b40814dccec99aa74568a8fe056faa.jpg"],
+ ["V015","知識型商品的文案寫作課","姚詩豪","商业销售","线上语音","为知识型商品写出能吸引对的客户的文案",98,"d841bf0410970b57406c79a361e97306.jpg","505e62b76014b2b90c2e8566820487cc.jpg"],
+ ["V014","銷售專業服務的系統化做法","張國洋","商业销售","线上语音","靠个人品牌和内容营销卖专业服务，不靠杀价",97,"fc9832510c5c52d7b449bce58207826d.jpg","ce5cbbbe3da2cc4c98bb994e07fa0690.jpg"],
+ ["V012","強效學習與征服考試的系統化做法 線上自學版","姚詩豪","职场能力","线上影音","看懂考试规则，用系统方法高效学习",90,"e7e181929813891b21ed3f4c20f6e095.jpg","7496bc4c974cd851d4029b15a9391ce2.jpg"],
+ ["S012","人生難題的系統思考法：學會策略思考、讓你更有能力面對人生挑戰","張國洋","人生策略","演讲","遇到人生难题时，用策略绕路，不硬碰硬",66,"5ac0aa4f733c1d6e8e33fa051a0edf7a.png","6481a5979b617bd204a1329026dbf5ee.png"],
+ ["V005","尋找天賦與熱情：職涯規劃線上工作坊","姚詩豪、洪澤洋","人生策略","线上影音","透过关卡练习，探索天赋、热情与职涯方向",72,"355e8f31bee6e935d19f607d2a7ce8c9.jpg","69302340fe68019a483c7dab32c74ef3.jpg"]
+].map((c,i)=>({order:i,code:c[0],title:c[1],teacher:c[2],cat:c[3],format:c[4],learn:c[5],
+  url:PAGE+c[6],cover:c[7]?IMG+c[7]:"",cover2:c[8]?IMG+c[8]:"",platform:c[9]||"大人学"}));
+
+const PER=12;
+const $=s=>document.querySelector(s);
+const state={q:"",cat:"全部",platform:"全部",sort:"default",page:1};
+let saved=new Set();
+try{saved=new Set(JSON.parse(localStorage.getItem("kz-saved")||"[]"))}catch(e){}
+function persist(){try{localStorage.setItem("kz-saved",JSON.stringify([...saved]))}catch(e){}}
+const viewSaved=()=>location.hash==="#saved";
+const esc=s=>String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+const catVar=c=>`var(--cat-${CATS.indexOf(c)})`;
+
+const plats=["全部",...new Set(COURSES.map(c=>c.platform))];
+$("#platform").innerHTML=plats.map(p=>`<option value="${esc(p)}">${p==="全部"?"全部平台":esc(p)}</option>`).join("");
+$("#platform").hidden=plats.length<=2;
+
+const teachers=new Set(COURSES.flatMap(c=>c.teacher.split("、").map(t=>t.split(" ")[0])));
+$("#stats").innerHTML=`<span><b>${COURSES.length}</b>门课</span><span><b>${teachers.size}</b>位讲师</span><span><b>${plats.length-1}</b>个平台</span>`;
+
+function baseList(){return viewSaved()?COURSES.filter(c=>saved.has(c.code)):COURSES}
+function filtered(ignoreCat){
+  const q=state.q.trim().toLowerCase();
+  return baseList().filter(c=>
+    (ignoreCat||state.cat==="全部"||c.cat===state.cat)&&
+    (state.platform==="全部"||c.platform===state.platform)&&
+    (!q||[c.code,c.title,c.teacher,c.learn,c.platform].join(" ").toLowerCase().includes(q)));
+}
+function sorted(list){
+  const l=[...list];
+  if(state.sort==="default")l.sort((a,b)=>a.order-b.order);
+  if(state.sort==="code")l.sort((a,b)=>a.code.localeCompare(b.code,"en",{numeric:true}));
+  if(state.sort==="teacher")l.sort((a,b)=>a.teacher.localeCompare(b.teacher,"zh")||a.order-b.order);
+  return l;
+}
+
+function renderChips(){
+  const pool=filtered(true);
+  $("#chips").innerHTML=["全部",...CATS].map(c=>{
+    const n=c==="全部"?pool.length:pool.filter(x=>x.cat===c).length;
+    const color=c==="全部"?"":` style="--c:${catVar(c)}"`;
+    return `<button class="chip" type="button" data-cat="${esc(c)}" aria-pressed="${state.cat===c}"${color}>${c==="全部"?"":"<i></i>"}${esc(c)}<em>${n}</em></button>`;
+  }).join("");
+}
+
+const ph=t=>`<div class="ph" aria-hidden="true"><b>${esc([...t][0])}</b><span>COVER</span></div>`;
+function card(c,idx=0){
+  const on=saved.has(c.code);
+  const img=c.cover
+    ?`<img src="${esc(c.cover)}" data-alt="${esc(c.cover2)}" data-t="${esc(c.title)}" alt="${esc(c.title)} 课程封面" loading="lazy" referrerpolicy="no-referrer">`
+    :ph(c.title);
+  return `<article class="card" style="--c:${catVar(c.cat)};--i:${idx};view-transition-name:card-${esc(c.code)}">
+    <a class="cover" href="${esc(c.url)}" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">${img}</a>
+    <div class="card-head"><span class="cat"><i></i>${esc(c.cat)}</span><span class="no">${esc(c.code)}</span></div>
+    <div class="card-body">
+      <h3><a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.title)}</a></h3>
+      <div class="who">${esc(c.teacher)} · ${esc(c.platform)}</div>
+      <div class="learn"><span>学什么：</span>${esc(c.learn)}</div>
+      <div class="meta"><span>形式 ${esc(c.format)}</span></div>
+    </div>
+    <div class="card-foot">
+      <button class="save" type="button" data-id="${esc(c.code)}" aria-pressed="${on}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z" fill="none"/></svg>
+        <span>${on?"已收藏":"收藏"}</span></button>
+      <a class="go" href="${esc(c.url)}" target="_blank" rel="noopener">去官方页面 →</a>
+    </div>
+  </article>`;
+}
+
+// 封面载入失败：先换备用封面，再不行就显示文字封面
+document.addEventListener("error",e=>{
+  const img=e.target;
+  if(!(img instanceof HTMLImageElement)||!img.closest(".cover"))return;
+  if(img.dataset.alt&&!img.dataset.tried){img.dataset.tried="1";img.src=img.dataset.alt;return}
+  img.outerHTML=ph(img.dataset.t||"课");
+},true);
+
+function render(){
+  const sv=viewSaved();
+  $("#nav-all").setAttribute("aria-current",sv?"false":"page");
+  $("#nav-saved").setAttribute("aria-current",sv?"page":"false");
+  $("#saved-n").textContent=saved.size;
+  $("#eyebrow").textContent=sv?"Wishlist · 我的收藏":"Catalogue · 课程目录";
+  $("#headline").textContent=sv?"你收藏起来、之后想上的课":"我上过、也推荐的课";
+  $("#lede").textContent=sv?"收藏只存在你这台设备的浏览器里，换手机或清除浏览记录就会不见。":"这些是我在大人学上过的课。点封面或「去官方页面」，可以看课程介绍和报名方式。";
+  $("#stats").hidden=sv;
+
+  renderChips();
+  const list=sorted(filtered(false));
+  const pages=Math.max(1,Math.ceil(list.length/PER));
+  state.page=Math.min(state.page,pages);
+  const start=(state.page-1)*PER;
+  const slice=list.slice(start,start+PER);
+
+  $("#count").innerHTML=`符合条件的课程 <b>${list.length}</b> 门`;
+  if(!slice.length){
+    $("#grid").innerHTML=sv&&!saved.size
+      ?`<div class="empty"><strong>还没有收藏任何课</strong>回到全部课程，点卡片下方的「收藏」就会出现在这里。</div>`
+      :`<div class="empty"><strong>没找到符合的课</strong>换个关键词，或把分类切回「全部」试试。</div>`;
+  }else $("#grid").innerHTML=slice.map(card).join("");
+
+  $("#range").textContent=list.length?`第 ${start+1}–${start+slice.length} 门，共 ${list.length} 门`:"";
+  let btns=`<button type="button" data-p="${state.page-1}" ${state.page===1?"disabled":""} aria-label="上一页">‹</button>`;
+  for(let i=1;i<=pages;i++)btns+=`<button type="button" data-p="${i}" ${i===state.page?'aria-current="page"':""}>${i}</button>`;
+  btns+=`<button type="button" data-p="${state.page+1}" ${state.page===pages?"disabled":""} aria-label="下一页">›</button>`;
+  $("#pages").innerHTML=pages>1?btns:"";
+}
+
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+// 之后的每次更新：卡片用顺滑的位移动画重新排列
+function update(){
+  $("#grid").classList.add("settled");
+  if(document.startViewTransition&&!reduce)document.startViewTransition(render);
+  else render();
+}
+
+$("#q").addEventListener("input",e=>{state.q=e.target.value;state.page=1;update()});
+$("#platform").addEventListener("change",e=>{state.platform=e.target.value;state.page=1;update()});
+$("#sort").addEventListener("change",e=>{state.sort=e.target.value;state.page=1;update()});
+$("#chips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;state.cat=b.dataset.cat;state.page=1;update()});
+$("#pages").addEventListener("click",e=>{const b=e.target.closest("button[data-p]");if(!b||b.disabled)return;state.page=+b.dataset.p;update();$(".drawer").scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"})});
+$("#grid").addEventListener("click",e=>{const b=e.target.closest(".save");if(!b)return;const id=b.dataset.id;saved.has(id)?saved.delete(id):saved.add(id);persist();update()});
+window.addEventListener("hashchange",()=>{state.page=1;update()});
+
+// 滑鼠移到卡片：3D 倾斜 + 跟着游标的光
+if(!reduce&&matchMedia("(hover: hover) and (pointer: fine)").matches){
+  let cur=null;
+  const reset=c=>{if(!c)return;c.classList.remove("tilting");c.style.removeProperty("--rx");c.style.removeProperty("--ry")};
+  $("#grid").addEventListener("pointermove",e=>{
+    const c=e.target.closest(".card");
+    if(c!==cur){reset(cur);cur=c}
+    if(!c)return;
+    const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+    c.classList.add("tilting");
+    c.style.setProperty("--rx",((.5-y)*7).toFixed(2)+"deg");
+    c.style.setProperty("--ry",((x-.5)*9).toFixed(2)+"deg");
+    c.style.setProperty("--mx",(x*100).toFixed(1)+"%");
+    c.style.setProperty("--my",(y*100).toFixed(1)+"%");
+  });
+  $("#grid").addEventListener("pointerleave",()=>{reset(cur);cur=null});
+}
+
+render();
+
+// 数字从 0 跳到实际数量
+if(!reduce)document.querySelectorAll("#stats b").forEach(b=>{
+  const end=+b.textContent;if(!end)return;const t0=performance.now()+300;
+  b.textContent="0";
+  const step=t=>{const p=Math.min(1,Math.max(0,(t-t0)/900));b.textContent=Math.round(end*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(step)};
+  requestAnimationFrame(step);
+});
+</script>
+</body>
+</html>
