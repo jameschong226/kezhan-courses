@@ -66,7 +66,7 @@
 @keyframes fillbar{to{transform:scaleX(1)}}
 
 /* 3D turntable */
-.stage{position:relative;height:clamp(300px,30vw,380px);perspective:1800px;perspective-origin:50% 20%;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab;margin-top:8px}
+.stage{position:relative;height:clamp(300px,30vw,380px);perspective:1800px;perspective-origin:50% 20%;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab;margin-top:34px}
 .stage.dragging{cursor:grabbing}
 .floor{position:absolute;left:50%;top:calc(30% + var(--sw,156px) * .62);width:var(--fw,1100px);height:calc(var(--fw,1100px) * .3);transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;
   background:
@@ -233,7 +233,7 @@ function measure(){
   const w=innerWidth;
   geo.sw=w<520?104:w<900?126:w<1500?142:156;
   geo.R=Math.min(560,Math.max(200,w*.4));
-  geo.tilt=w<520?.34:.3;
+  geo.tilt=w<520?.28:.22;
   document.documentElement.style.setProperty("--sw",geo.sw+"px");
   $("#stage").style.setProperty("--fw",(geo.R*2+geo.sw*2.2)+"px");
 }
@@ -247,7 +247,7 @@ function layout(){
     if(Math.cos(a)>best){best=Math.cos(a);front=i}
     const lift=el.classList.contains("front")?-16:0;
     el.style.transform=`translate3d(${x.toFixed(1)}px,${(y+lift).toFixed(1)}px,${z.toFixed(1)}px)`;
-    el.style.opacity=(.28+.72*d*d).toFixed(3);
+    el.style.opacity=(.16+.84*d*d).toFixed(3);
     el.style.zIndex=Math.round(d*100);
   });
   slots.forEach((el,i)=>el.classList.toggle("front",i===front));
