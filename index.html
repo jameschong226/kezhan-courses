@@ -238,6 +238,8 @@ function measure(){
   geo.sw=phone?124:w<900?126:w<1500?142:156;
   // 手机：转盘比萤幕宽，两侧卡片会滑出画面，正中间那张最清楚
   geo.R=phone?w*.82:Math.min(560,Math.max(200,w*.4));
+  // 课越多转盘越大，卡片才不会叠在一起
+  geo.R=Math.max(geo.R,N*geo.sw*1.08/(2*Math.PI));
   geo.depth=phone?.5:.55;
   geo.tilt=phone?.2:.22;
   document.documentElement.style.setProperty("--sw",geo.sw+"px");

@@ -3,7 +3,7 @@
 :root{
   --bg:#EDF0EB; --surface:#FBFCF9; --ink:#17221E; --muted:#596660; --line:#D3DAD2;
   --ruled:#E3E8E1; --rule:#B9483A; --accent:#2D6650; --mark:#D99A2B;
-  --cat-0:#2D6650; --cat-1:#35559E; --cat-2:#9B5128; --cat-3:#874079;
+  --cat-0:#2D6650; --cat-1:#35559E; --cat-2:#9B5128; --cat-3:#874079; --cat-4:#1F7A7A; --cat-5:#B03A5B;
   --glow:rgba(45,102,80,.14); --shadow:rgba(23,34,30,.45);
   --aura-1:#9FD1B4; --aura-2:#F2C98A; --aura-3:#A9B9EE; --aura-op:.55;
   --band:#17221E; --band-ink:#EDF0EB;
@@ -16,7 +16,7 @@
 @media (prefers-color-scheme: dark){:root{
   --bg:#0F1613; --surface:#18221E; --ink:#E5ECE7; --muted:#9AA9A2; --line:#2B3A33;
   --ruled:#22302A; --rule:#D9705F; --accent:#74C29B; --mark:#EFBE5C;
-  --cat-0:#74C29B; --cat-1:#8FA9EC; --cat-2:#E0956A; --cat-3:#D78CC6;
+  --cat-0:#74C29B; --cat-1:#8FA9EC; --cat-2:#E0956A; --cat-3:#D78CC6; --cat-4:#6FD0CB; --cat-5:#EE8AA6;
   --glow:rgba(116,194,155,.16); --shadow:rgba(0,0,0,.75);
   --aura-1:#1E5A41; --aura-2:#6A4718; --aura-3:#26346A; --aura-op:.7;
   --band:#E5ECE7; --band-ink:#0F1613;
