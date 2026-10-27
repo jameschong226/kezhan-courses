@@ -106,7 +106,10 @@
   .hero{grid-template-columns:1fr}
   .spot{max-width:600px}
 }
+.stage{overflow-x:clip}
 @media (max-width:640px){
+  .stage{margin-top:72px;height:310px}
+  .ring{top:30%}
   .spot{grid-template-columns:1fr;grid-template-rows:auto}
   .spot>.spot-cover{grid-row:auto;aspect-ratio:16/9;height:auto;min-height:0;border-right:0;border-bottom:1px solid var(--line)}
   .spot>.spot-head,.spot>.spot-body,.spot>.spot-foot{grid-column:1}
@@ -231,9 +234,12 @@ let angle=0,target=0,cur=0;
 
 function measure(){
   const w=innerWidth;
-  geo.sw=w<520?104:w<900?126:w<1500?142:156;
-  geo.R=Math.min(560,Math.max(200,w*.4));
-  geo.tilt=w<520?.28:.22;
+  const phone=w<640;
+  geo.sw=phone?124:w<900?126:w<1500?142:156;
+  // 手机：转盘比萤幕宽，两侧卡片会滑出画面，正中间那张最清楚
+  geo.R=phone?w*.82:Math.min(560,Math.max(200,w*.4));
+  geo.depth=phone?.5:.55;
+  geo.tilt=phone?.2:.22;
   document.documentElement.style.setProperty("--sw",geo.sw+"px");
   $("#stage").style.setProperty("--fw",(geo.R*2+geo.sw*2.2)+"px");
 }
