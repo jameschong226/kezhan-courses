@@ -63,15 +63,15 @@
 @keyframes fillbar{to{transform:scaleX(1)}}
 
 /* 3D turntable */
-.stage{position:relative;height:clamp(320px,34vw,420px);perspective:1500px;perspective-origin:50% 20%;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab;margin-top:-20px}
+.stage{position:relative;height:clamp(300px,30vw,380px);perspective:1800px;perspective-origin:50% 20%;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab;margin-top:-56px}
 .stage.dragging{cursor:grabbing}
-.floor{position:absolute;left:50%;top:calc(34% + var(--sw,156px) * .5);width:var(--fw,1100px);height:calc(var(--fw,1100px) * .3);transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;
+.floor{position:absolute;left:50%;top:calc(30% + var(--sw,156px) * .62);width:var(--fw,1100px);height:calc(var(--fw,1100px) * .3);transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;
   background:
     radial-gradient(closest-side,color-mix(in srgb,var(--mark) 22%,transparent),transparent 70%) 50% 85%/40% 40% no-repeat,
     repeating-radial-gradient(closest-side,transparent 0 22px,color-mix(in srgb,var(--line) 85%,transparent) 22px 23px),
     radial-gradient(closest-side,color-mix(in srgb,var(--surface) 70%,transparent),transparent);
   -webkit-mask:radial-gradient(closest-side,#000 70%,transparent);mask:radial-gradient(closest-side,#000 70%,transparent)}
-.ring{position:absolute;left:50%;top:34%;width:0;height:0;transform-style:preserve-3d}
+.ring{position:absolute;left:50%;top:30%;width:0;height:0;transform-style:preserve-3d}
 .slot{position:absolute;left:0;top:0;width:var(--sw,156px);margin-left:calc(var(--sw,156px) / -2);margin-top:calc(var(--sw,156px) * -.75);
   background:var(--surface);border:1px solid var(--line);border-radius:2px;text-decoration:none;color:inherit;will-change:transform,opacity;
   box-shadow:0 18px 30px -22px var(--shadow);transition:box-shadow .4s,border-color .4s}
@@ -220,14 +220,14 @@ ringEl.innerHTML=COURSES.map((c,i)=>`<a class="slot" href="${esc(c.url)}" target
   <span class="st">${esc(c.title)}</span></a>`).join("");
 const slots=[...ringEl.children];
 const step=Math.PI*2/N;
-const geo={R:520,sw:156,tilt:.2,spread:reduce?1:0,spin:reduce?0:Math.PI*1.2};
+const geo={R:520,sw:156,tilt:.3,depth:.55,spread:reduce?1:0,spin:reduce?0:Math.PI*1.2};
 let angle=0,target=0,cur=0;
 
 function measure(){
   const w=innerWidth;
   geo.sw=w<520?108:w<900?132:156;
   geo.R=Math.min(560,Math.max(200,w*.4));
-  geo.tilt=w<520?.22:.16;
+  geo.tilt=w<520?.34:.3;
   document.documentElement.style.setProperty("--sw",geo.sw+"px");
   $("#stage").style.setProperty("--fw",(geo.R*2+geo.sw*2.2)+"px");
 }
@@ -236,7 +236,7 @@ function layout(){
   let best=-2,front=0;
   slots.forEach((el,i)=>{
     const a=i*step+angle+geo.spin;
-    const x=Math.sin(a)*R,z=Math.cos(a)*R,y=-z*geo.tilt*-1;
+    const x=Math.sin(a)*R,z=Math.cos(a)*R*geo.depth,y=z*geo.tilt;
     const d=(Math.cos(a)+1)/2;            // 0 = 最后面, 1 = 最前面
     if(Math.cos(a)>best){best=Math.cos(a);front=i}
     const lift=el.classList.contains("front")?-16:0;
