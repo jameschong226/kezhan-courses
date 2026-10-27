@@ -37,7 +37,7 @@
   color-scheme:dark}}
 
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;overflow-x:hidden}
 img{max-width:100%}
 [hidden]{display:none!important}
@@ -91,6 +91,7 @@ button,input,select{font:inherit;color:inherit}
 .cta:hover i{transform:translateY(3px)}
 
 /* marquee band */
+.bands{overflow:hidden;padding-block:16px 8px}
 .band{background:var(--band);color:var(--band-ink);overflow:hidden;transform:rotate(-1.2deg);margin:12px -24px 56px;padding-block:14px}
 .band .track{display:flex;width:max-content;animation:slide 38s linear infinite}
 .band.rev{transform:rotate(1deg);margin-top:-48px;opacity:.88}
@@ -196,8 +197,10 @@ footer{border-top:1px solid var(--line);padding-block:20px 32px;display:flex;jus
   </section>
 </div></div>
 
-<div class="band" aria-hidden="true"><div class="track" id="band1"></div></div>
-<div class="band rev" aria-hidden="true"><div class="track" id="band2"></div></div>
+<div class="bands">
+  <div class="band" aria-hidden="true"><div class="track" id="band1"></div></div>
+  <div class="band rev" aria-hidden="true"><div class="track" id="band2"></div></div>
+</div>
 
 <div class="gut"><div class="wrap">
   <section class="drawer" id="catalog" aria-label="筛选课程">
